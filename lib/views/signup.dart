@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, prefer_const_constructors, deprecated_member_use, unnecessary_new, non_constant_identifier_names
+// ignore_for_file: unused_import, prefer_const_constructors, deprecated_member_use, unnecessary_new, non_constant_identifier_names, avoid_unnecessary_containers
 
 // import 'dart:js';
 
@@ -26,7 +26,7 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         _isLoading = true;
       });
-       authrService.signUpWithEmailAndPass(email, password).then((value) {
+      authrService.signUpWithEmailAndPass(email, password).then((value) {
         if (value != null) {
           setState(() {
             _isLoading = false;
@@ -42,6 +42,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: appBar(context),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -50,7 +51,7 @@ class _SignUpState extends State<SignUp> {
       body: _isLoading
           ? Container(
               child: Center(
-                child: CircularProgressIndicator() ,
+                child: CircularProgressIndicator(),
               ),
             )
           : Form(
@@ -98,22 +99,12 @@ class _SignUpState extends State<SignUp> {
                         height: 30,
                       ),
                       GestureDetector(
-                        onTap: () {
-                          SignUp();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 18),
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(30)),
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width - 48,
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ),
-                      ),
+                          onTap: () {
+                            SignUp();
+                          },
+                          child: blueButton(
+                            context: context,
+                           label: "Sign UP" )),
                       SizedBox(
                         height: 22,
                       ),

@@ -3,5 +3,4 @@
 class app_User {
   String uid;
   app_User({required this.uid});
-
 }

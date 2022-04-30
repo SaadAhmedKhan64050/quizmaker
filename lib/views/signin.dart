@@ -44,6 +44,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: appBar(context),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -86,22 +87,11 @@ class _SignInState extends State<SignIn> {
                         height: 30,
                       ),
                       GestureDetector(
-                        onTap: (() {
-                          SignIn();
-                        }),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 18),
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(30)),
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width - 48,
-                          child: Text(
-                            "Sign in",
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ),
-                      ),
+                          onTap: (() {
+                            SignIn();
+                          }),
+                          child: blueButton(context: context,
+                           label: "login")),
                       SizedBox(
                         height: 22,
                       ),
