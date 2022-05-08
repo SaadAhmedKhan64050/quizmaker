@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, avoid_print
+// ignore_for_file: unused_import, avoid_print, unused_element, await_only_futures
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -13,7 +13,8 @@ class DatabaseService {
     });
   }
 
-  Future<void> addQuestionData(Map<String, dynamic> questionData, String quizId) async {
+  Future<void> addQuestionData(
+      Map<String, dynamic> questionData, String quizId) async {
     await FirebaseFirestore.instance
         .collection("Quiz")
         .doc(quizId)
@@ -21,6 +22,10 @@ class DatabaseService {
         .add(questionData)
         .catchError((e) {
       print(e.toString());
-    }); 
+    });
+
+
+    
   }
+ 
 }

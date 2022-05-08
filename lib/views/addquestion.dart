@@ -41,6 +41,7 @@ class _AddQuestionState extends State<AddQuestion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           title: appBar(context),
@@ -53,118 +54,121 @@ class _AddQuestionState extends State<AddQuestion> {
             ? Container(
                 child: Center(child: CircularProgressIndicator()),
               )
-            : Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    TextFormField(
-                      validator: (val) {
-                        return val!.isEmpty
-                            ? "Please Enter The Question"
-                            : null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Question",
-                      ),
-                      onChanged: (val) {
-                        question = val;
-                      },
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    TextFormField(
-                      validator: (val) {
-                        return val!.isEmpty ? "Please Enter the Option1" : null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Option1 (Correct Answer)",
-                      ),
-                      onChanged: (val) {
-                        option1 = val;
-                      },
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    TextFormField(
-                      validator: (val) {
-                        return val!.isEmpty
-                            ? "Please Enter the Option2 "
-                            : null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Option2",
-                      ),
-                      onChanged: (val) {
-                        option2 = val;
-                      },
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    TextFormField(
-                      validator: (val) {
-                        return val!.isEmpty
-                            ? "Please Enter The Option3 "
-                            : null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Option3",
-                      ),
-                      onChanged: (val) {
-                        option3 = val;
-                      },
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    TextFormField(
-                      validator: (val) {
-                        return val!.isEmpty
-                            ? "Please Enter The option4 "
-                            : null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Option4",
-                      ),
-                      onChanged: (val) {
-                        option4 = val;
-                      },
-                    ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: blueButton(
-                              context: context,
-                              label: "Submit",
-                              ButtonWidth:
-                                  MediaQuery.of(context).size.width / 2 - 36),
+            : Form(
+              key: _formKey,
+              child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        validator: (val) {
+                          return val!.isEmpty
+                              ? "Please Enter The Question"
+                              : null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Question",
                         ),
-                        SizedBox(
-                          width: 24,
+                        onChanged: (val) {
+                          question = val;
+                        },
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      TextFormField(
+                        validator: (val) {
+                          return val!.isEmpty ? "Please Enter the Option1" : null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Option1 (Correct Answer)",
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            uploadQuestionData();
-                          },
-                          child: blueButton(
-                              context: context,
-                              label: "Add Question",
-                              ButtonWidth:
-                                  MediaQuery.of(context).size.width / 2 - 36),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 60,
-                    )
-                  ],
+                        onChanged: (val) {
+                          option1 = val;
+                        },
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      TextFormField(
+                        validator: (val) {
+                          return val!.isEmpty
+                              ? "Please Enter the Option2 "
+                              : null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Option2",
+                        ),
+                        onChanged: (val) {
+                          option2 = val;
+                        },
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      TextFormField(
+                        validator: (val) {
+                          return val!.isEmpty
+                              ? "Please Enter the Option3 "
+                              : null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Option3",
+                        ),
+                        onChanged: (val) {
+                          option3 = val;
+                        },
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      TextFormField(
+                        validator: (val) {
+                          return val!.isEmpty
+                              ? "Please Enter The option4 "
+                              : null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Option4",
+                        ),
+                        onChanged: (val) {
+                          option4 = val;
+                        },
+                      ),
+                      Spacer(),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: blueButton(
+                                context: context,
+                                label: "Submit",
+                                ButtonWidth:
+                                    MediaQuery.of(context).size.width / 2 - 36),
+                          ),
+                          SizedBox(
+                            width: 24,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              uploadQuestionData();
+                            },
+                            child: blueButton(
+                                context: context,
+                                label: "Add Question",
+                                ButtonWidth:
+                                    MediaQuery.of(context).size.width / 2 - 36),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 60,
+                      )
+                    ],
+                  ),
                 ),
-              ));
+            ));
   }
 }
