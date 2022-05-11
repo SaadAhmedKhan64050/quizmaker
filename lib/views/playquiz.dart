@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quizmaker/models/question_model.dart';
 import 'package:quizmaker/services/database.dart';
+import 'package:quizmaker/views/results.dart';
 import 'package:quizmaker/widgets/quiz_play_widget.dart';
 
 import '../widgets/widgets.dart';
 
 class PlayQuiz extends StatefulWidget {
-  // const PlayQuiz({Key? key, required this.quizID}) : super(key: key);
+  // var quizID;
+  // const PlayQuiz({Key? key, required this.quizID, required this.quizId}) : super(key: key);
 
   final String quizId;
   const PlayQuiz(this.quizId);
@@ -25,7 +27,7 @@ int _notAttempted = 0;
 
 class _PlayQuizState extends State<PlayQuiz> {
   DatabaseService databaseService = new DatabaseService();
-  QuerySnapshot? questionSnapshot;
+  QuerySnapshot<dynamic>? questionSnapshot;
 
   QuestionModel getQuestionModelFromDatasnapshots(
       DocumentSnapshot questionsSnapshot) {
@@ -75,24 +77,39 @@ class _PlayQuizState extends State<PlayQuiz> {
           iconTheme: IconThemeData(color: Colors.black87),
           brightness: Brightness.light,
         ),
-        body: Container(
-          child: Column(
-            children: [
-              questionSnapshot!.docs == null
-                  ? Container()
-                   :ListView.builder(
-                      shrinkWrap: true,
-                      physics: ClampingScrollPhysics(),
-                      itemCount: questionSnapshot!.docs.length,
-                      itemBuilder: (context, index) {
-                        return QuizPlayTile(
-                          questionModel: getQuestionModelFromDatasnapshots(
-                              questionSnapshot!.docs[index]),
-                          index: index,
-                        );
-                      })
-            ],
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: [
+                questionSnapshot?.docs == null
+                    ? Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        itemCount: questionSnapshot!.docs.length,
+                        itemBuilder: (context, index) {
+                          return QuizPlayTile(
+                            questionModel: getQuestionModelFromDatasnapshots(
+                                questionSnapshot!.docs[index]),
+                            index: index,
+                          );
+                        })
+              ],
+            ),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.check),
+          onPressed: (() {
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: ((context) => Results(correct: _correct, incorrect: _incorrect, total: total,))
+          ));
+        } ),
         ));
   }
 }
@@ -113,43 +130,133 @@ class _QuizPlayTileState extends State<QuizPlayTile> {
   Widget build(BuildContext context) {
     return Container(
         child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.questionModel.question),
+        Text("Q${widget.index + 1}) ${widget.questionModel.question}",
+            style: TextStyle(fontSize: 20, color: Colors.black87)),
+        SizedBox(
+          height: 12,
+        ),
+        GestureDetector(
+          onTap: () {
+            if (!widget.questionModel.answered) {
+              //correct
+              if (widget.questionModel.option1 ==
+                  widget.questionModel.correctOption) {
+                optionSelected = widget.questionModel.option1;
+                widget.questionModel.answered = true;
+                _correct = _correct + 1;
+                _notAttempted = _notAttempted - 1;
+                setState(() {});
+              } else {
+                optionSelected = widget.questionModel.option1;
+                widget.questionModel.answered = true;
+                _incorrect = _incorrect + 1;
+                _notAttempted = _notAttempted - 1;
+                setState(() {});
+              }
+            }
+          },
+          child: OptionTile(
+            correctAnswer: widget.questionModel.correctOption,
+            description: widget.questionModel.option1,
+            option: "A",
+            optionSelected: optionSelected,
+          ),
+        ),
         SizedBox(
           height: 4,
         ),
-        OptionTile(
-          correctAnswer: widget.questionModel.option1,
-          description: widget.questionModel.option1,
-          option: "Ä",
-          optionSelected: optionSelected,
+        GestureDetector(
+          onTap: () {
+            if (!widget.questionModel.answered) {
+              //correct
+              if (widget.questionModel.option2 ==
+                  widget.questionModel.correctOption) {
+                optionSelected = widget.questionModel.option2;
+                widget.questionModel.answered = true;
+                _correct = _correct + 1;
+                _notAttempted = _notAttempted - 1;
+                print("${widget.questionModel.correctOption}");
+                setState(() {});
+              } else {
+                optionSelected = widget.questionModel.option2;
+                widget.questionModel.answered = true;
+                _incorrect = _incorrect + 1;
+                _notAttempted = _notAttempted - 1;
+                setState(() {});
+              }
+            }
+          },
+          child: OptionTile(
+            correctAnswer: widget.questionModel.correctOption,
+            description: widget.questionModel.option2,
+            option: "B",
+            optionSelected: optionSelected,
+          ),
         ),
         SizedBox(
           height: 4,
         ),
-        OptionTile(
-          correctAnswer: widget.questionModel.option1,
-          description: widget.questionModel.option2,
-          option: "B",
-          optionSelected: optionSelected,
+        GestureDetector(
+          onTap: () {
+            if (!widget.questionModel.answered) {
+              //correct
+              if (widget.questionModel.option3 ==
+                  widget.questionModel.correctOption) {
+                optionSelected = widget.questionModel.option3;
+                widget.questionModel.answered = true;
+                _correct = _correct + 1;
+                _notAttempted = _notAttempted - 1;
+                setState(() {});
+              } else {
+                optionSelected = widget.questionModel.option3;
+                widget.questionModel.answered = true;
+                _incorrect = _incorrect + 1;
+                _notAttempted = _notAttempted - 1;
+                setState(() {});
+              }
+            }
+          },
+          child: OptionTile(
+            correctAnswer: widget.questionModel.correctOption,
+            description: widget.questionModel.option3,
+            option: "C",
+            optionSelected: optionSelected,
+          ),
         ),
         SizedBox(
           height: 4,
         ),
-        OptionTile(
-          correctAnswer: widget.questionModel.option1,
-          description: widget.questionModel.option3,
-          option: "C",
-          optionSelected: optionSelected,
+        GestureDetector(
+          onTap: () {
+            if (!widget.questionModel.answered) {
+              //correct
+              if (widget.questionModel.option4 ==
+                  widget.questionModel.correctOption) {
+                optionSelected = widget.questionModel.option4;
+                widget.questionModel.answered = true;
+                _correct = _correct + 1;
+                _notAttempted = _notAttempted - 1;
+                setState(() {});
+              } else {
+                optionSelected = widget.questionModel.option4;
+                widget.questionModel.answered = true;
+                _incorrect = _incorrect + 1;
+                _notAttempted = _notAttempted - 1;
+                setState(() {});
+              }
+            }
+          },
+          child: OptionTile(
+            correctAnswer: widget.questionModel.correctOption,
+            description: widget.questionModel.option4,
+            option: "D",
+            optionSelected: optionSelected,
+          ),
         ),
         SizedBox(
-          height: 4,
-        ),
-        OptionTile(
-          correctAnswer: widget.questionModel.option1,
-          description: widget.questionModel.option4,
-          option: "D",
-          optionSelected: optionSelected,
+          height: 20,
         )
       ],
     ));

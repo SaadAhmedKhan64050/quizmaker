@@ -32,7 +32,7 @@ class _SignUpState extends State<SignUp> {
             _isLoading = false;
           });
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: ((context) => Home())));
+              context, MaterialPageRoute(builder: ((context) => SignIn  ())));
         }
       });
     }
@@ -104,7 +104,7 @@ class _SignUpState extends State<SignUp> {
                           },
                           child: blueButton(
                             context: context,
-                           label: "Sign UP" )),
+                           label: "Sign Up" )),
                       SizedBox(
                         height: 22,
                       ),
