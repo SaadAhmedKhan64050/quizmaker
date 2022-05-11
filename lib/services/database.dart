@@ -23,9 +23,13 @@ class DatabaseService {
         .catchError((e) {
       print(e.toString());
     });
-
-
-    
   }
- 
+
+  getQuizQData(String quizId) async {
+    return await FirebaseFirestore.instance
+        .collection("Quiz")
+        .doc(quizId)
+        .collection("QNA")
+        .get();
+  }
 }
